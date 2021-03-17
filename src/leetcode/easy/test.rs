@@ -1,3 +1,7 @@
+pub mod do_what {
+    
+}
+
 #[cfg(test)]
 pub mod tests {
     #[test]
