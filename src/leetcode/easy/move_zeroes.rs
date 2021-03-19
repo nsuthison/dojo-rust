@@ -4,11 +4,16 @@ struct Solution {}
 impl Solution {
     pub fn move_zeroes(nums: &mut Vec<i32>) {
         let mut idx = 0;
+        let mut swap_count = 0;
+
         while idx < nums.len() {
             if nums[idx] == 0 {
                 nums.remove(idx);
                 nums.append(&mut vec![0]);
-                if is_the_rest_only_zero(&nums, idx) {
+
+                swap_count = swap_count + 1;
+
+                if swap_count > nums.len() {
                     break;
                 }
             } else {
@@ -16,16 +21,6 @@ impl Solution {
             }
         }
     }
-}
-
-fn is_the_rest_only_zero(nums: &Vec<i32>, current_idx: usize) -> bool {
-    for idx in current_idx..(nums.len() - 1) {
-        if nums[idx] != 0 {
-            return false;
-        }
-    }
-
-    true
 }
 
 #[cfg(test)]
