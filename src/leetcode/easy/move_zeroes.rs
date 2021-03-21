@@ -28,11 +28,14 @@ pub mod solution_test {
     use super::*;
     use rstest::rstest;
 
-    #[rstest(input, expected, 
+    #[rstest(input, expected,
         case(&mut vec![0,1,0,3,12], &mut vec![1,3,12,0,0]),
         case(&mut vec![0, 0, 1], &mut vec![1, 0, 0]),
     )]
-    fn move_zeroes_when_given_vector_of_interger_should_move_all_zero_to_the_end_of_vector(input: &mut Vec<i32>, expected: &mut Vec<i32>,) {
+    fn move_zeroes_when_given_vector_of_interger_should_move_all_zero_to_the_end_of_vector(
+        input: &mut Vec<i32>,
+        expected: &mut Vec<i32>,
+    ) {
         Solution::move_zeroes(input);
 
         assert_eq!(input, expected);
