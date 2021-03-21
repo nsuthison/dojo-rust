@@ -11,13 +11,13 @@ impl Solution {
                 nums.remove(idx);
                 nums.append(&mut vec![0]);
 
-                swap_count = swap_count + 1;
+                swap_count += 1;
 
                 if swap_count > nums.len() {
                     break;
                 }
             } else {
-                idx = idx + 1;
+                idx += 1;
             }
         }
     }
