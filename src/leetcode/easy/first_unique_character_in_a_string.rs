@@ -2,6 +2,7 @@ use std::collections::HashMap;
 
 struct Solution;
 
+/// Question: https://leetcode.com/problems/first-unique-character-in-a-string/solution/
 impl Solution {
     pub fn first_uniq_char(s: String) -> i32 {
         let mut alphabet_is_unique: HashMap<char, bool> = HashMap::new();

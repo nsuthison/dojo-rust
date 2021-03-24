@@ -1,6 +1,6 @@
-struct Solution {}
+struct Solution;
 
-// Question: https://leetcode.com/problems/richest-customer-wealth/
+/// Question: https://leetcode.com/problems/richest-customer-wealth/
 impl Solution {
     pub fn maximum_wealth(accounts: Vec<Vec<i32>>) -> i32 {
         accounts.iter().map(|account| account.iter().sum()).fold(
@@ -26,7 +26,7 @@ pub mod solution_test {
     case(vec![vec![1,5],vec![7,3],vec![3,5]], 10),
     case(vec![vec![2,8,7],vec![7,1,3],vec![1,9,5]], 17),
     )]
-    fn maximum_wealth_when_given_vector_of_customer_accounts_should_return_the_maximum_wealth(
+    fn maximum_wealth_should_return_the_maximum_wealth_when_given_vector_of_customer_accounts(
         input: Vec<Vec<i32>>,
         expected: i32,
     ) {

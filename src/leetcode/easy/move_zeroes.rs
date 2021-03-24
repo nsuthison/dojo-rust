@@ -1,6 +1,6 @@
-struct Solution {}
+struct Solution;
 
-// Question: https://leetcode.com/problems/move-zeroes/
+/// Question: https://leetcode.com/problems/move-zeroes/
 impl Solution {
     pub fn move_zeroes(nums: &mut Vec<i32>) {
         let mut idx = 0;
@@ -32,7 +32,7 @@ pub mod solution_test {
         case(&mut vec![0,1,0,3,12], &mut vec![1,3,12,0,0]),
         case(&mut vec![0, 0, 1], &mut vec![1, 0, 0]),
     )]
-    fn move_zeroes_when_given_vector_of_interger_should_move_all_zero_to_the_end_of_vector(
+    fn move_zeroes_should_move_all_zero_to_the_end_of_vector_when_given_vector_of_interger(
         input: &mut Vec<i32>,
         expected: &mut Vec<i32>,
     ) {
