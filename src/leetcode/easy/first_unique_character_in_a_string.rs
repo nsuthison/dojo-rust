@@ -3,26 +3,32 @@ use std::collections::HashMap;
 struct Solution;
 
 /// Question: https://leetcode.com/problems/first-unique-character-in-a-string/solution/
-#[allow(clippy::map_entry)] // In this case map_entry is not make sense when we want to update false if entry is exist.
 impl Solution {
     pub fn first_uniq_char(s: String) -> i32 {
-        let mut alphabet_is_unique: HashMap<char, bool> = HashMap::new();
-
-        for (_, c) in s.chars().enumerate() {
-            if alphabet_is_unique.contains_key(&c) {
-                alphabet_is_unique.insert(c, false);
-            } else {
-                alphabet_is_unique.insert(c, true);
-            }
-        }
+        let is_char_unique_map = Solution::create_is_char_unique_map(&s);
 
         for (idx, c) in s.chars().enumerate() {
-            if alphabet_is_unique[&c] {
+            if is_char_unique_map[&c] {
                 return idx as i32;
             }
         }
 
         -1
+    }
+
+    #[allow(clippy::map_entry)] // In this case map_entry is not make sense when we want to update false if entry is exist.
+    fn create_is_char_unique_map(given_string: &str) -> HashMap<char, bool> {
+        let mut is_char_unique_map: HashMap<char, bool> = HashMap::new();
+
+        for c in given_string.chars() {
+            if is_char_unique_map.contains_key(&c) {
+                is_char_unique_map.insert(c, false);
+            } else {
+                is_char_unique_map.insert(c, true);
+            }
+        }
+
+        is_char_unique_map
     }
 }
 
