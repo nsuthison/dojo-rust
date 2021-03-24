@@ -44,4 +44,13 @@ pub mod solution_test {
 
         assert_eq!(result, expected);
     }
+
+    #[rstest(input, case("ababccdd"), case("abcabc"))]
+    fn first_uniq_char_should_return_minus_one_when_given_string_does_not_have_unique_char(
+        input: &str,
+    ) {
+        let result = Solution::first_uniq_char(String::from(input));
+
+        assert_eq!(result, -1);
+    }
 }
