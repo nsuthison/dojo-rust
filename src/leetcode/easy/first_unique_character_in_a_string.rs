@@ -16,16 +16,14 @@ impl Solution {
         -1
     }
 
-    #[allow(clippy::map_entry)] // In this case map_entry is not make sense when we want to update false if entry is exist.
     fn create_is_char_unique_map(given_string: &str) -> HashMap<char, bool> {
         let mut is_char_unique_map: HashMap<char, bool> = HashMap::new();
 
         for c in given_string.chars() {
-            if is_char_unique_map.contains_key(&c) {
-                is_char_unique_map.insert(c, false);
-            } else {
-                is_char_unique_map.insert(c, true);
-            }
+            is_char_unique_map
+                .entry(c)
+                .and_modify(|is_unique| *is_unique = false)
+                .or_insert(true);
         }
 
         is_char_unique_map
