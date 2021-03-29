@@ -11,3 +11,6 @@ Cargo.lock
 
 # ignore intellij ide folder
 .idea
+
+# ignore vscode ide specific folder
+.vscode
