@@ -8,7 +8,7 @@ on:
       - main
 
 jobs:
-  build-and-test:
+  build-and-clippy:
     runs-on: ubuntu-latest
     steps:
       - name: checkout repository
@@ -20,10 +20,10 @@ jobs:
           toolchain: stable
           override: true
 
-      - name: Run cargo check
+      - name: Run cargo build
         uses: actions-rs/cargo@v1
         with:
-          command: check
+          command: build
 
       - name: Run cargo clippy
         uses: actions-rs/cargo@v1
