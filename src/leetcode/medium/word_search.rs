@@ -47,7 +47,13 @@ fn find_next(
                 column: cell.column,
             };
 
-            if find_next(&next_cell, char_position + 1, word, board, &mut use_cell.clone()) {
+            if find_next(
+                &next_cell,
+                char_position + 1,
+                word,
+                board,
+                &mut use_cell.clone(),
+            ) {
                 return true;
             }
         }
@@ -58,7 +64,13 @@ fn find_next(
                 row: cell.row + 1,
             };
 
-            if find_next(&next_cell, char_position + 1, word, board, &mut use_cell.clone()) {
+            if find_next(
+                &next_cell,
+                char_position + 1,
+                word,
+                board,
+                &mut use_cell.clone(),
+            ) {
                 return true;
             }
         }
@@ -69,7 +81,13 @@ fn find_next(
                 row: cell.row,
             };
 
-            if find_next(&next_cell, char_position + 1, word, board, &mut use_cell.clone()) {
+            if find_next(
+                &next_cell,
+                char_position + 1,
+                word,
+                board,
+                &mut use_cell.clone(),
+            ) {
                 return true;
             }
         }
@@ -80,7 +98,13 @@ fn find_next(
                 row: cell.row,
             };
 
-            if find_next(&next_cell, char_position + 1, word, board, &mut use_cell.clone()) {
+            if find_next(
+                &next_cell,
+                char_position + 1,
+                word,
+                board,
+                &mut use_cell.clone(),
+            ) {
                 return true;
             }
         }

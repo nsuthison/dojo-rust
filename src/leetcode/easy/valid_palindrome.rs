@@ -8,7 +8,7 @@ impl Solution {
     }
 }
 
-pub fn get_lower_case_alpha_numeric(s: &str) -> String {
+fn get_lower_case_alpha_numeric(s: &str) -> String {
     s.chars()
         .filter(|x| x.is_alphanumeric())
         .collect::<String>()
