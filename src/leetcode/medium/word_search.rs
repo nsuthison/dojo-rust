@@ -27,7 +27,7 @@ fn find_next(
     cell: &Coordinate,
     char_position: i32,
     word: &str,
-    board: &Vec<Vec<char>>,
+    board: &[Vec<char>],
     use_cell: &mut Vec<Coordinate>,
 ) -> bool {
     if is_char_match(
@@ -113,7 +113,7 @@ fn find_next(
     false
 }
 
-fn can_go_up(current_cell: &Coordinate, use_cell: &Vec<Coordinate>) -> bool {
+fn can_go_up(current_cell: &Coordinate, use_cell: &[Coordinate]) -> bool {
     let next_cell = Coordinate {
         row: current_cell.row - 1,
         column: current_cell.column,
@@ -124,8 +124,8 @@ fn can_go_up(current_cell: &Coordinate, use_cell: &Vec<Coordinate>) -> bool {
 
 fn can_go_down(
     current_cell: &Coordinate,
-    use_cell: &Vec<Coordinate>,
-    board: &Vec<Vec<char>>,
+    use_cell: &[Coordinate],
+    board: &[Vec<char>],
 ) -> bool {
     let next_cell = Coordinate {
         row: current_cell.row + 1,
@@ -135,7 +135,7 @@ fn can_go_down(
     next_cell.row < board.len() as i32 && !use_cell.contains(&next_cell)
 }
 
-fn can_go_left(current_cell: &Coordinate, use_cell: &Vec<Coordinate>) -> bool {
+fn can_go_left(current_cell: &Coordinate, use_cell: &[Coordinate]) -> bool {
     let next_cell = Coordinate {
         row: current_cell.row,
         column: current_cell.column - 1,
@@ -146,8 +146,8 @@ fn can_go_left(current_cell: &Coordinate, use_cell: &Vec<Coordinate>) -> bool {
 
 fn can_go_right(
     current_cell: &Coordinate,
-    use_cell: &Vec<Coordinate>,
-    board: &Vec<Vec<char>>,
+    use_cell: &[Coordinate],
+    board: &[Vec<char>],
 ) -> bool {
     let next_cell = Coordinate {
         row: current_cell.row,
@@ -157,7 +157,7 @@ fn can_go_right(
     next_cell.column < board[0].len() as i32 && !use_cell.contains(&next_cell)
 }
 
-fn is_char_match(to_check: char, position_to_check: &Coordinate, board: &Vec<Vec<char>>) -> bool {
+fn is_char_match(to_check: char, position_to_check: &Coordinate, board: &[Vec<char>]) -> bool {
     to_check == board[position_to_check.row as usize][position_to_check.column as usize]
 }
 
