@@ -44,52 +44,25 @@ fn find_next(
 
         use_cell.push(cell.clone());
 
-        if can_go_to(&cell.next(Direction::Up), &use_cell, board)
-            && find_next(
-                &cell.next(Direction::Up),
-                char_position + 1,
-                word,
-                board,
-                &mut use_cell.clone(),
-            )
-        {
-            return true;
-        }
+        let directions: Vec<Direction> = vec![
+            Direction::Up,
+            Direction::Down,
+            Direction::Left,
+            Direction::Right,
+        ];
 
-        if can_go_to(&cell.next(Direction::Down), &use_cell, board)
-            && find_next(
-                &cell.next(Direction::Down),
-                char_position + 1,
-                word,
-                board,
-                &mut use_cell.clone(),
-            )
-        {
-            return true;
-        }
-
-        if can_go_to(&cell.next(Direction::Left), &use_cell, board)
-            && find_next(
-                &cell.next(Direction::Left),
-                char_position + 1,
-                word,
-                board,
-                &mut use_cell.clone(),
-            )
-        {
-            return true;
-        }
-
-        if can_go_to(&cell.next(Direction::Right), &use_cell, board)
-            && find_next(
-                &cell.next(Direction::Right),
-                char_position + 1,
-                word,
-                board,
-                &mut use_cell.clone(),
-            )
-        {
-            return true;
+        for direction in directions {
+            if can_go_to(&cell.next(&direction), &use_cell, board)
+                && find_next(
+                    &cell.next(&direction),
+                    char_position + 1,
+                    word,
+                    board,
+                    &mut use_cell.clone(),
+                )
+            {
+                return true;
+            }
         }
     }
 

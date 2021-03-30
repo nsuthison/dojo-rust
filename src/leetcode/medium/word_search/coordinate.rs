@@ -11,7 +11,7 @@ impl PartialEq for Coordinate {
 }
 
 impl Coordinate {
-    pub fn next(&self, direction: Direction) -> Coordinate {
+    pub fn next(&self, direction: &Direction) -> Coordinate {
         match direction {
             Direction::Up => Coordinate {
                 row: self.row - 1,
