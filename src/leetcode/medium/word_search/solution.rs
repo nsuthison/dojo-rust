@@ -1,6 +1,7 @@
 struct Solution;
 
 use super::coordinate::Coordinate;
+use crate::leetcode::medium::word_search::coordinate::Direction;
 
 /// Question: https://leetcode.com/problems/word-search/
 impl Solution {
@@ -44,10 +45,7 @@ fn find_next(
         use_cell.push(cell.clone());
 
         if can_go_up(cell, &use_cell) {
-            let next_cell = Coordinate {
-                row: cell.row - 1,
-                column: cell.column,
-            };
+            let next_cell = cell.next(Direction::Up);
 
             if find_next(
                 &next_cell,
@@ -61,10 +59,7 @@ fn find_next(
         }
 
         if can_go_down(cell, &use_cell, board) {
-            let next_cell = Coordinate {
-                column: cell.column,
-                row: cell.row + 1,
-            };
+            let next_cell = cell.next(Direction::Down);
 
             if find_next(
                 &next_cell,
@@ -78,10 +73,7 @@ fn find_next(
         }
 
         if can_go_left(cell, &use_cell) {
-            let next_cell = Coordinate {
-                column: cell.column - 1,
-                row: cell.row,
-            };
+            let next_cell = cell.next(Direction::Left);
 
             if find_next(
                 &next_cell,
@@ -95,10 +87,7 @@ fn find_next(
         }
 
         if can_go_right(cell, &use_cell, board) {
-            let next_cell = Coordinate {
-                column: cell.column + 1,
-                row: cell.row,
-            };
+            let next_cell = cell.next(Direction::Right);
 
             if find_next(
                 &next_cell,
@@ -116,37 +105,25 @@ fn find_next(
 }
 
 fn can_go_up(current_cell: &Coordinate, use_cell: &[Coordinate]) -> bool {
-    let next_cell = Coordinate {
-        row: current_cell.row - 1,
-        column: current_cell.column,
-    };
+    let next_cell = current_cell.next(Direction::Up);
 
     next_cell.row >= 0 && !use_cell.contains(&next_cell)
 }
 
 fn can_go_down(current_cell: &Coordinate, use_cell: &[Coordinate], board: &[Vec<char>]) -> bool {
-    let next_cell = Coordinate {
-        row: current_cell.row + 1,
-        column: current_cell.column,
-    };
+    let next_cell = current_cell.next(Direction::Down);
 
     next_cell.row < board.len() as i32 && !use_cell.contains(&next_cell)
 }
 
 fn can_go_left(current_cell: &Coordinate, use_cell: &[Coordinate]) -> bool {
-    let next_cell = Coordinate {
-        row: current_cell.row,
-        column: current_cell.column - 1,
-    };
+    let next_cell = current_cell.next(Direction::Left);
 
     next_cell.column >= 0 && !use_cell.contains(&next_cell)
 }
 
 fn can_go_right(current_cell: &Coordinate, use_cell: &[Coordinate], board: &[Vec<char>]) -> bool {
-    let next_cell = Coordinate {
-        row: current_cell.row,
-        column: current_cell.column + 1,
-    };
+    let next_cell = current_cell.next(Direction::Right);
 
     next_cell.column < board[0].len() as i32 && !use_cell.contains(&next_cell)
 }

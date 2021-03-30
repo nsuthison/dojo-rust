@@ -9,3 +9,33 @@ impl PartialEq for Coordinate {
         self.row == other.row && self.column == other.column
     }
 }
+
+impl Coordinate {
+    pub fn next(&self, direction: Direction) -> Coordinate {
+        match direction {
+            Direction::Up => Coordinate {
+                row: self.row - 1,
+                column: self.column,
+            },
+            Direction::Down => Coordinate {
+                row: self.row + 1,
+                column: self.column,
+            },
+            Direction::Left => Coordinate {
+                row: self.row,
+                column: self.column - 1,
+            },
+            Direction::Right => Coordinate {
+                row: self.row,
+                column: self.column + 1,
+            },
+        }
+    }
+}
+
+pub enum Direction {
+    Up,
+    Down,
+    Left,
+    Right,
+}
