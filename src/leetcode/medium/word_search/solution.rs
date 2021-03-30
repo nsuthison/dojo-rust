@@ -44,92 +44,72 @@ fn find_next(
 
         use_cell.push(cell.clone());
 
-        if can_go_up(cell, &use_cell) {
-            let next_cell = cell.next(Direction::Up);
-
-            if find_next(
-                &next_cell,
+        if can_go_to(&cell.next(Direction::Up), &use_cell, board)
+            && find_next(
+                &cell.next(Direction::Up),
                 char_position + 1,
                 word,
                 board,
                 &mut use_cell.clone(),
-            ) {
-                return true;
-            }
+            )
+        {
+            return true;
         }
 
-        if can_go_down(cell, &use_cell, board) {
-            let next_cell = cell.next(Direction::Down);
-
-            if find_next(
-                &next_cell,
+        if can_go_to(&cell.next(Direction::Down), &use_cell, board)
+            && find_next(
+                &cell.next(Direction::Down),
                 char_position + 1,
                 word,
                 board,
                 &mut use_cell.clone(),
-            ) {
-                return true;
-            }
+            )
+        {
+            return true;
         }
 
-        if can_go_left(cell, &use_cell) {
-            let next_cell = cell.next(Direction::Left);
-
-            if find_next(
-                &next_cell,
+        if can_go_to(&cell.next(Direction::Left), &use_cell, board)
+            && find_next(
+                &cell.next(Direction::Left),
                 char_position + 1,
                 word,
                 board,
                 &mut use_cell.clone(),
-            ) {
-                return true;
-            }
+            )
+        {
+            return true;
         }
 
-        if can_go_right(cell, &use_cell, board) {
-            let next_cell = cell.next(Direction::Right);
-
-            if find_next(
-                &next_cell,
+        if can_go_to(&cell.next(Direction::Right), &use_cell, board)
+            && find_next(
+                &cell.next(Direction::Right),
                 char_position + 1,
                 word,
                 board,
                 &mut use_cell.clone(),
-            ) {
-                return true;
-            }
+            )
+        {
+            return true;
         }
     }
 
     false
 }
 
-fn can_go_up(current_cell: &Coordinate, use_cell: &[Coordinate]) -> bool {
-    let next_cell = current_cell.next(Direction::Up);
-
-    next_cell.row >= 0 && !use_cell.contains(&next_cell)
-}
-
-fn can_go_down(current_cell: &Coordinate, use_cell: &[Coordinate], board: &[Vec<char>]) -> bool {
-    let next_cell = current_cell.next(Direction::Down);
-
-    next_cell.row < board.len() as i32 && !use_cell.contains(&next_cell)
-}
-
-fn can_go_left(current_cell: &Coordinate, use_cell: &[Coordinate]) -> bool {
-    let next_cell = current_cell.next(Direction::Left);
-
-    next_cell.column >= 0 && !use_cell.contains(&next_cell)
-}
-
-fn can_go_right(current_cell: &Coordinate, use_cell: &[Coordinate], board: &[Vec<char>]) -> bool {
-    let next_cell = current_cell.next(Direction::Right);
-
-    next_cell.column < board[0].len() as i32 && !use_cell.contains(&next_cell)
-}
-
 fn is_char_match(to_check: char, position_to_check: &Coordinate, board: &[Vec<char>]) -> bool {
     to_check == board[position_to_check.row as usize][position_to_check.column as usize]
+}
+
+fn can_go_to(cell: &Coordinate, use_cells: &[Coordinate], board: &[Vec<char>]) -> bool {
+    is_in_boundary(cell, board) && !use_cells.contains(cell)
+}
+
+fn is_in_boundary(cell: &Coordinate, board: &[Vec<char>]) -> bool {
+    let is_row_inbound = || cell.row >= 0 && cell.row < board.len() as i32;
+    let is_column_inbound =
+        || cell.column >= 0 && cell.column < board[cell.row as usize].len() as i32;
+
+    is_row_inbound() && is_column_inbound()
 }
 
 #[cfg(test)]
