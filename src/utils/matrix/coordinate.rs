@@ -1,3 +1,5 @@
+use crate::utils::matrix::direction::Direction;
+
 #[derive(Clone)]
 pub struct Coordinate {
     pub row: i32,
@@ -31,11 +33,4 @@ impl Coordinate {
             },
         }
     }
-}
-
-pub enum Direction {
-    Up,
-    Down,
-    Left,
-    Right,
 }

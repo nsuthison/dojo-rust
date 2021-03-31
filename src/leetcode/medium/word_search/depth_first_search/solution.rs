@@ -1,6 +1,7 @@
 struct Solution;
 
-use crate::leetcode::medium::word_search::coordinate::*;
+use crate::utils::matrix::coordinate::Coordinate;
+use crate::utils::matrix::direction::Direction;
 
 /// Question: https://leetcode.com/problems/word-search/
 impl Solution {
