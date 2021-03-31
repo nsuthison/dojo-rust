@@ -1,2 +1,2 @@
 mod coordinate;
-pub mod solution;
+pub mod depth_first_search;
