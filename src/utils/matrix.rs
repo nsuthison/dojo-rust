@@ -8,11 +8,11 @@ pub struct Matrix<'a, T> {
 }
 
 impl<T> Matrix<'_, T> {
-    fn new(matrix: &[Vec<T>]) -> Matrix<T> {
+    pub fn new(matrix: &[Vec<T>]) -> Matrix<T> {
         Matrix { data: matrix }
     }
 
-    fn is_in_boundary(&self, cell: &Coordinate) -> bool {
+    pub fn is_in_boundary(&self, cell: &Coordinate) -> bool {
         let is_row_inbound = || cell.row >= 0 && cell.row < self.data.len() as i32;
         let is_column_inbound =
             || cell.column >= 0 && cell.column < self.data[cell.row as usize].len() as i32;

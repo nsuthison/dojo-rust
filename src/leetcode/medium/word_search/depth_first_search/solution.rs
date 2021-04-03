@@ -2,6 +2,7 @@ struct Solution;
 
 use crate::utils::matrix::coordinate::Coordinate;
 use crate::utils::matrix::direction::Direction;
+use crate::utils::matrix::Matrix;
 
 /// Question: https://leetcode.com/problems/word-search/
 impl Solution {
@@ -74,15 +75,7 @@ fn is_char_match(to_check: char, position_to_check: &Coordinate, board: &[Vec<ch
 }
 
 fn can_go_to(cell: &Coordinate, use_cells: &[Coordinate], board: &[Vec<char>]) -> bool {
-    is_in_boundary(cell, board) && !use_cells.contains(cell)
-}
-
-fn is_in_boundary(cell: &Coordinate, board: &[Vec<char>]) -> bool {
-    let is_row_inbound = || cell.row >= 0 && cell.row < board.len() as i32;
-    let is_column_inbound =
-        || cell.column >= 0 && cell.column < board[cell.row as usize].len() as i32;
-
-    is_row_inbound() && is_column_inbound()
+    Matrix::is_in_boundary(&Matrix::new(board), cell) && !use_cells.contains(cell)
 }
 
 #[cfg(test)]
