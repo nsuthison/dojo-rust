@@ -30,6 +30,8 @@ pub mod matrix_test {
     input,
     coordinate,
     case(vec ! [vec ! [1, 1, 1], vec ! [1, 1, 1]], Coordinate { row: 0, column: 1}),
+    case(vec ! [vec ! [1, 1, 1], vec ! [1, 1, 1]], Coordinate { row: 1, column: 2}),
+    case(vec ! [vec ! [1, 1, 1], vec ! [1, 1, 1]], Coordinate { row: 1, column: 2}),
     )]
     fn is_in_boundary_should_return_true_when_given_coordinate_is_in_the_boundary(
         input: Vec<Vec<i32>>,
@@ -44,8 +46,10 @@ pub mod matrix_test {
     input,
     coordinate,
     case(vec ! [vec ! [1, 1, 1], vec ! [1, 1, 1]], Coordinate { row: 5, column: 5}),
+    case(vec ! [vec ! [1, 1, 1], vec ! [1, 1, 1]], Coordinate { row: 3, column: 3}),
+    case(vec ! [vec ! [1, 1, 1], vec ! [1, 1, 1]], Coordinate { row: 2, column: 3}),
     )]
-    fn is_in_boundary_should_return_face_when_given_coordinate_is_outside_the_boundary(
+    fn is_in_boundary_should_return_false_when_given_coordinate_is_outside_the_boundary(
         input: Vec<Vec<i32>>,
         coordinate: Coordinate,
     ) {
