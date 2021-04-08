@@ -107,7 +107,7 @@ pub mod solution_test {
     expected,
     case(vec ! [vec ! ['1', '1', '0'], vec ! ['1', '1', '0'], vec ! ['0', '0', '1']], 2),
     )]
-    fn find_circle_num_should_return_number_of_provinces_when_given_matrix_one_and_zero_which_group_of_one_represent_a_province(
+    fn number_of_island_should_return_number_of_provinces_when_given_matrix_one_and_zero_which_group_of_one_represent_a_province(
         is_connected: Vec<Vec<char>>,
         expected: i32,
     ) {
