@@ -6,25 +6,25 @@ impl Solution {
     pub fn find_circle_num(is_connected: Vec<Vec<i32>>) -> i32 {
         let mut provinces: Vec<Vec<i32>> = Vec::new();
 
-        for row in 0..(is_connected.len() as i32) {
-            for column in row..(is_connected[row as usize].len() as i32) {
-                if row == column {
-                    if !is_city_exist_in(&provinces, &row) {
-                        provinces.push(vec![row]);
+        for city_row in 0..(is_connected.len() as i32) {
+            for city_column in city_row..(is_connected[city_row as usize].len() as i32) {
+                if city_row == city_column {
+                    if !is_city_exist_in(&provinces, &city_row) {
+                        provinces.push(vec![city_row]);
                     }
 
                     continue;
                 }
 
-                if is_connected[row as usize][column as usize] == 1 {
-                    let city_exist_kind = get_city_exist_kind(&provinces, &row, &column);
-
-                    match city_exist_kind {
+                if is_connected[city_row as usize][city_column as usize] == 1 {
+                    match get_city_exist_kind(&provinces, &city_row, &city_column) {
                         CityExistKind::BothCitiesExist => {
-                            let province_contain_row_city_idx = get_province_index_which_contain(row, &provinces)
-                                .expect("city should exist in provinces");
+                            let province_contain_row_city_idx =
+                                get_province_index_which_contain(city_row, &provinces)
+                                    .expect("city should exist in provinces");
+
                             let province_contain_column_city_idx =
-                                get_province_index_which_contain(column, &provinces)
+                                get_province_index_which_contain(city_column, &provinces)
                                     .expect("city should exist in provinces");
 
                             if province_contain_row_city_idx == province_contain_column_city_idx {
@@ -37,21 +37,25 @@ impl Solution {
                             provinces.remove(province_contain_column_city_idx);
                         }
                         CityExistKind::RowCityExistOnly => {
-                            for province in &mut provinces {
-                                if province.contains(&row) {
-                                    province.push(column);
-                                }
-                            }
+                            let province_contain_row_city_idx =
+                                get_province_index_which_contain(city_row, &provinces)
+                                    .expect("city should exist in provinces");
+
+                            add_to(&mut provinces[province_contain_row_city_idx])(with(
+                                city_column,
+                            ));
                         }
                         CityExistKind::ColumnCityExistOnly => {
-                            for province in &mut provinces {
-                                if province.contains(&column) {
-                                    province.push(row);
-                                }
-                            }
+                            let province_contain_column_city_idx =
+                                get_province_index_which_contain(city_column, &provinces)
+                                    .expect("city should exist in provinces");
+
+                            add_to(&mut provinces[province_contain_column_city_idx])(with(
+                                city_row,
+                            ));
                         }
                         CityExistKind::BothCitiesNotExist => {
-                            provinces.push(vec![row, column]);
+                            provinces.push(vec![city_row, city_column]);
                         }
                     }
                 }
@@ -98,6 +102,14 @@ fn get_province_index_which_contain(city: i32, provinces: &[Vec<i32>]) -> Result
     }
 
     Err(Error::new(ErrorKind::NotFound, ""))
+}
+
+fn add_to(province: &mut Vec<i32>) -> impl FnMut(i32) + '_ {
+    move |city| province.push(city)
+}
+
+fn with<T>(obj: T) -> T {
+    obj
 }
 
 enum CityExistKind {
