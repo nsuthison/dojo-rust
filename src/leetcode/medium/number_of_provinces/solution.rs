@@ -104,8 +104,8 @@ fn get_province_index_which_contain(city: i32, provinces: &[Vec<i32>]) -> Result
     Err(Error::new(ErrorKind::NotFound, ""))
 }
 
-fn add_to(province: &mut Vec<i32>) -> impl FnMut(i32) + '_ {
-    move |city| province.push(city)
+fn add_to<T>(vec: &mut Vec<T>) -> impl FnMut(T) + '_ {
+    move |to_add| vec.push(to_add)
 }
 
 fn with<T>(obj: T) -> T {
