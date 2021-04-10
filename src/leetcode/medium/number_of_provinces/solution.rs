@@ -15,8 +15,10 @@ impl Solution {
                 }
 
                 if is_connected[row as usize][column as usize] == 1 {
-                    if is_city_exist_in(&provinces, &row) {
-                        if is_city_exist_in(&provinces, &column) {
+                    let city_exist_kind = get_city_exist_kind(&provinces, &row, &column);
+
+                    match city_exist_kind {
+                        CityExistKind::BothCitiesExist => {
                             let mut row_city_idx: usize = 0;
                             let mut column_city_idx: usize = 0;
 
@@ -40,21 +42,24 @@ impl Solution {
 
                             provinces[row_city_idx].append(&mut to_add);
                             provinces.remove(column_city_idx);
-                        } else {
+                        }
+                        CityExistKind::RowCityExistOnly => {
                             for province in &mut provinces {
                                 if province.contains(&row) {
                                     province.push(column);
                                 }
                             }
                         }
-                    } else if is_city_exist_in(&provinces, &column) {
-                        for province in &mut provinces {
-                            if province.contains(&column) {
-                                province.push(row);
+                        CityExistKind::ColumnCityExistOnly => {
+                            for province in &mut provinces {
+                                if province.contains(&column) {
+                                    province.push(row);
+                                }
                             }
                         }
-                    } else {
-                        provinces.push(vec![row, column]);
+                        CityExistKind::BothCitiesNotExist => {
+                            provinces.push(vec![row, column]);
+                        }
                     }
                 }
             }
@@ -73,6 +78,30 @@ fn is_city_exist_in(provinces: &Vec<Vec<i32>>, city: &i32) -> bool {
     }
 
     false
+}
+
+#[allow(clippy::collapsible_else_if)] // To not collapse if condition here looks better than collapse one.
+fn get_city_exist_kind(provinces: &[Vec<i32>], city_row: &i32, city_column: &i32) -> CityExistKind {
+    if is_city_exist_in(&provinces.to_vec(), city_row) {
+        if is_city_exist_in(&provinces.to_vec(), city_column) {
+            CityExistKind::BothCitiesExist
+        } else {
+            CityExistKind::RowCityExistOnly
+        }
+    } else {
+        if is_city_exist_in(&provinces.to_vec(), city_column) {
+            CityExistKind::ColumnCityExistOnly
+        } else {
+            CityExistKind::BothCitiesNotExist
+        }
+    }
+}
+
+enum CityExistKind {
+    RowCityExistOnly,
+    ColumnCityExistOnly,
+    BothCitiesExist,
+    BothCitiesNotExist,
 }
 
 struct Solution;
