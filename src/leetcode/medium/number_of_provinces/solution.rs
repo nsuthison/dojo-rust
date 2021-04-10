@@ -1,3 +1,5 @@
+use std::io::{Error, ErrorKind};
+
 /// Question: https://leetcode.com/problems/number-of-provinces/
 #[allow(clippy::redundant_clone)]
 impl Solution {
@@ -19,29 +21,20 @@ impl Solution {
 
                     match city_exist_kind {
                         CityExistKind::BothCitiesExist => {
-                            let mut row_city_idx: usize = 0;
-                            let mut column_city_idx: usize = 0;
+                            let province_contain_row_city_idx = get_province_index_which_contain(row, &provinces)
+                                .expect("city should exist in provinces");
+                            let province_contain_column_city_idx =
+                                get_province_index_which_contain(column, &provinces)
+                                    .expect("city should exist in provinces");
 
-                            for (idx, province) in provinces.iter().enumerate() {
-                                if province.contains(&row) {
-                                    row_city_idx = idx;
-                                }
-                            }
-
-                            for (idx, province) in provinces.iter().enumerate() {
-                                if province.contains(&column) {
-                                    column_city_idx = idx;
-                                }
-                            }
-
-                            if row_city_idx == column_city_idx {
+                            if province_contain_row_city_idx == province_contain_column_city_idx {
                                 continue;
                             }
 
-                            let mut to_add = provinces[column_city_idx].clone();
+                            let mut to_add = provinces[province_contain_column_city_idx].clone();
 
-                            provinces[row_city_idx].append(&mut to_add);
-                            provinces.remove(column_city_idx);
+                            provinces[province_contain_row_city_idx].append(&mut to_add);
+                            provinces.remove(province_contain_column_city_idx);
                         }
                         CityExistKind::RowCityExistOnly => {
                             for province in &mut provinces {
@@ -95,6 +88,16 @@ fn get_city_exist_kind(provinces: &[Vec<i32>], city_row: &i32, city_column: &i32
             CityExistKind::BothCitiesNotExist
         }
     }
+}
+
+fn get_province_index_which_contain(city: i32, provinces: &[Vec<i32>]) -> Result<usize, Error> {
+    for (idx, province) in provinces.iter().enumerate() {
+        if province.contains(&city) {
+            return Ok(idx);
+        }
+    }
+
+    Err(Error::new(ErrorKind::NotFound, ""))
 }
 
 enum CityExistKind {
