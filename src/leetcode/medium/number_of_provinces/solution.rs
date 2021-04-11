@@ -31,10 +31,11 @@ impl Solution {
                                 continue;
                             }
 
-                            let mut to_add = provinces[province_contain_column_city_idx].clone();
-
-                            provinces[province_contain_row_city_idx].append(&mut to_add);
-                            provinces.remove(province_contain_column_city_idx);
+                            merge_province_in(
+                                &mut provinces,
+                                province_contain_row_city_idx,
+                                province_contain_column_city_idx,
+                            );
                         }
                         CityExistKind::RowCityExistOnly => {
                             let province_contain_row_city_idx =
@@ -104,6 +105,19 @@ fn get_province_index_which_contain(city: i32, provinces: &[Vec<i32>]) -> Result
     Err(Error::new(ErrorKind::NotFound, ""))
 }
 
+#[allow(clippy::ptr_arg)] // known problems: https://rust-lang.github.io/rust-clippy/master/index.html#ptr_arg
+fn merge_province_in(
+    provinces: &mut Vec<Vec<i32>>,
+    first_province_idx: usize,
+    second_province_idx: usize,
+) {
+    let mut to_add = provinces[first_province_idx].clone();
+
+    provinces[second_province_idx].append(&mut to_add);
+    provinces.remove(first_province_idx);
+}
+
+/// This happen because I try to play with currying in Rust
 fn add_to<T>(vec: &mut Vec<T>) -> impl FnMut(T) + '_ {
     move |to_add| vec.push(to_add)
 }
