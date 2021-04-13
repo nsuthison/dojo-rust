@@ -3,7 +3,68 @@ impl Solution {
     //
     // }
 }
+//
+// fn try_book(to_book: TimeInterval, mut meeting_room: MeetingRoom) -> (MeetingRoom, bool) {
+//     let mut booked_intervals = &meeting_room.booked_intervals;
+//
+//     for (idx, booked) in meeting_room.booked_intervals.iter().enumerate() {
+//         match idx {
+//             0 => {
+//                 if to_book.is_before(booked) {
+//                     let mut to_return = vec![to_book];
+//                     to_return.append(&mut booked_intervals);
+//                     //to_return.extend(booked_intervals);
+//                     meeting_room.booked_intervals = to_return;
+//
+//                     return (meeting_room, true);
+//                 }
+//             },
+//             _ if idx == meeting_room.booked_intervals.len() => {
+//                 if to_book.is_after(booked) {
+//                     meeting_room.booked_intervals.push(to_book);
+//
+//                     return (meeting_room, true);
+//                 }
+//             },
+//             _ => {
+//                 if to_book.is_between(&meeting_room.booked_intervals[idx - 1], booked) {
+//                     let mut b = vec![to_book];
+//                     let x = &mut meeting_room.booked_intervals[0..idx].to_vec();
+//                     let y = &mut meeting_room.booked_intervals[0..idx].to_vec();
+//                     x.append(&mut b);
+//                     x.append(&mut y);
+//                     //booked_intervals.splice(1..1, b.iter().clone());
+//                     return (meeting_room, true);
+//                 }
+//             }
+//         }
+//
+//         // if idx == 3 {
+//         //     meeting_room.booked_intervals.push(to_book);
+//         //     break;
+//         // }
+//     }
+//
+//     (meeting_room, false)
+// }
 
+fn create_new_meeting_room_and_book_with(
+    to_book: TimeInterval,
+    mut meeting_rooms: Vec<MeetingRoom>,
+) -> Vec<MeetingRoom> {
+    meeting_rooms.push(MeetingRoom {
+        booked_intervals: vec![to_book],
+    });
+
+    meeting_rooms
+}
+
+#[derive(Clone)]
+pub struct MeetingRoom {
+    pub booked_intervals: Vec<TimeInterval>,
+}
+
+#[derive(Clone)]
 pub struct TimeInterval {
     pub start: i32,
     pub end: i32,
