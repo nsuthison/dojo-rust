@@ -3,11 +3,13 @@ impl Solution {
     pub fn running_sum(nums: Vec<i32>) -> Vec<i32> {
         let acc_with_first_elem = vec![*(nums.first().unwrap_or(&0))];
 
-        nums.into_iter().skip(1).fold(acc_with_first_elem, |mut acc, x| {
-            acc.push(x + acc.last().unwrap_or(&0));
+        nums.into_iter()
+            .skip(1)
+            .fold(acc_with_first_elem, |mut acc, x| {
+                acc.push(x + acc.last().unwrap_or(&0));
 
-            acc
-        })
+                acc
+            })
     }
 }
 
