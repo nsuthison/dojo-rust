@@ -1,12 +1,8 @@
 /// Question: https://leetcode.com/problems/reverse-string/
 impl Solution {
     pub fn reverse_string(s: &mut Vec<char>) {
-        let mut front_idx: usize = 0;
-        let mut back_idx = s.len() - 1;
-        while front_idx < back_idx {
+        for (front_idx, back_idx) in ((s.len() / 2)..(s.len())).rev().enumerate() {
             s.swap(front_idx, back_idx);
-            front_idx += 1;
-            back_idx -= 1;
         }
     }
 }
