@@ -24,7 +24,7 @@ impl Solution {
 }
 
 fn traverse_cities(coordinate: &Coordinate, is_connected: &mut Vec<Vec<char>>) {
-    if Matrix::is_in_boundary(&Matrix::new(is_connected), &coordinate)
+    if Matrix::is_in_boundary(&Matrix::new(is_connected), coordinate)
         && is_connected[coordinate.row as usize][coordinate.column as usize] == '1'
     {
         update(is_connected, coordinate, '0');

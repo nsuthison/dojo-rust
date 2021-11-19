@@ -53,7 +53,7 @@ fn find_next(
         ];
 
         for direction in directions {
-            if can_go_to(&cell.next(&direction), &use_cell, board)
+            if can_go_to(&cell.next(&direction), use_cell, board)
                 && find_next(
                     &cell.next(&direction),
                     char_position + 1,
