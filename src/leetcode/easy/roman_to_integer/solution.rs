@@ -19,23 +19,18 @@ impl Solution {
     pub fn roman_to_int(s: String) -> i32 {
         let mut previous_roman_number = "".to_owned();
         let mut result = 0;
-        let size = s.chars().count();
+        let given_roman_number_size = s.chars().count();
 
-        if size == 1 {
+        if given_roman_number_size == 1 {
             return get_dec_value_from_roman_number(&s).unwrap();
         }
 
         for (idx, roman_number_symbol) in s.chars().enumerate() {
-            if previous_roman_number == "" {
-                previous_roman_number = format!("{}", roman_number_symbol);
-                continue;
-            }
-
             let to_check = format!("{}{}", previous_roman_number, roman_number_symbol);
 
             if is_legit_roman_number(&to_check) {
-                if idx < size - 1 {
-                    previous_roman_number = format!("{}", to_check);
+                if is_not_last_roman_number_symbol(given_roman_number_size, idx) {
+                    previous_roman_number = to_check.to_string();
                     continue;
                 } else {
                     result += get_dec_value_from_roman_number(&to_check).unwrap();
@@ -46,7 +41,11 @@ impl Solution {
             }
         }
 
-        result
+        return result;
+
+        fn is_not_last_roman_number_symbol(roman_number_size: usize, idx: usize) -> bool {
+            idx < roman_number_size - 1
+        }
     }
 }
 
@@ -58,7 +57,7 @@ fn get_dec_value_from_roman_number(roman_number: &str) -> Option<i32> {
     match roman_number.chars().count() {
         1 => Some(
             *roman_number_value()
-                .get(&roman_number.chars().nth(0).unwrap())
+                .get(&roman_number.chars().next().unwrap())
                 .unwrap(),
         ),
         2 => {
@@ -77,10 +76,9 @@ fn get_dec_value_from_roman_number(roman_number: &str) -> Option<i32> {
 }
 
 fn try_get_dec_value_from_roman_nth(roman_number: &str, nth: usize) -> i32 {
-    roman_number_value()
+    *roman_number_value()
         .get(&roman_number.chars().nth(nth).unwrap())
         .unwrap()
-        .clone()
 }
 
 fn is_legit_roman_number(roman_number: &str) -> bool {
@@ -93,11 +91,9 @@ fn is_legit_roman_number(roman_number: &str) -> bool {
 }
 
 fn is_legit_single_roman_number_symbol(roman_number: &str) -> bool {
-    if let Some(_) = roman_number_value().get(&roman_number.chars().nth(0).unwrap()) {
-        true
-    } else {
-        false
-    }
+    roman_number_value()
+        .get(&roman_number.chars().next().unwrap())
+        .is_some()
 }
 
 fn is_first_roman_symbol_lower_than_the_second_one(roman_number: &str) -> bool {
