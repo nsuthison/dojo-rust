@@ -1,9 +1,8 @@
-use once_cell::sync::Lazy;
 use std::collections::HashMap;
 
 struct Solution;
 
-static ROMAN_NUMBER_VALUE: Lazy<HashMap<char, i32>> = Lazy::new(|| {
+fn roman_number_value() -> HashMap<char, i32> {
     HashMap::from([
         ('I', 1),
         ('V', 5),
@@ -13,7 +12,7 @@ static ROMAN_NUMBER_VALUE: Lazy<HashMap<char, i32>> = Lazy::new(|| {
         ('D', 500),
         ('M', 1000),
     ])
-});
+}
 
 /// Question: https://leetcode.com/problems/roman-to-integer/
 impl Solution {
@@ -58,7 +57,7 @@ fn get_dec_value_from_roman_number(roman_number: &str) -> Option<i32> {
 
     match roman_number.chars().count() {
         1 => Some(
-            *ROMAN_NUMBER_VALUE
+            *roman_number_value()
                 .get(&roman_number.chars().nth(0).unwrap())
                 .unwrap(),
         ),
@@ -77,10 +76,11 @@ fn get_dec_value_from_roman_number(roman_number: &str) -> Option<i32> {
     }
 }
 
-fn try_get_dec_value_from_roman_nth(roman_number: &str, nth: usize) -> &i32 {
-    ROMAN_NUMBER_VALUE
+fn try_get_dec_value_from_roman_nth(roman_number: &str, nth: usize) -> i32 {
+    roman_number_value()
         .get(&roman_number.chars().nth(nth).unwrap())
         .unwrap()
+        .clone()
 }
 
 fn is_legit_roman_number(roman_number: &str) -> bool {
@@ -93,7 +93,7 @@ fn is_legit_roman_number(roman_number: &str) -> bool {
 }
 
 fn is_legit_single_roman_number_symbol(roman_number: &str) -> bool {
-    if let Some(_) = ROMAN_NUMBER_VALUE.get(&roman_number.chars().nth(0).unwrap()) {
+    if let Some(_) = roman_number_value().get(&roman_number.chars().nth(0).unwrap()) {
         true
     } else {
         false
@@ -121,8 +121,8 @@ pub mod solution_test {
 
     #[test]
     fn roman_number_value_should_return_related_decimal_value_when_given_roman_number_as_a_key() {
-        assert_eq!(Some(&1), ROMAN_NUMBER_VALUE.get(&'I'));
-        assert_eq!(Some(&5), ROMAN_NUMBER_VALUE.get(&'V'));
+        assert_eq!(Some(&1), roman_number_value().get(&'I'));
+        assert_eq!(Some(&5), roman_number_value().get(&'V'));
     }
 
     #[test]
