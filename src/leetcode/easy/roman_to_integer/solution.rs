@@ -18,30 +18,26 @@ fn roman_number_value() -> HashMap<char, i32> {
 impl Solution {
     pub fn roman_to_int(s: String) -> i32 {
         let mut previous_roman_number = "".to_owned();
-        let mut result = 0;
         let given_roman_number_size = s.chars().count();
+        let mut to_return = 0;
 
-        if given_roman_number_size == 1 {
-            return get_dec_value_from_roman_number(&s).unwrap();
-        }
-
-        for (idx, roman_number_symbol) in s.chars().enumerate() {
-            let to_check = format!("{}{}", previous_roman_number, roman_number_symbol);
+        for (idx, current_roman_number_symbol) in s.chars().enumerate() {
+            let to_check = format!("{}{}", previous_roman_number, current_roman_number_symbol);
 
             if is_legit_roman_number(&to_check) {
                 if is_not_last_roman_number_symbol(given_roman_number_size, idx) {
                     previous_roman_number = to_check.to_string();
                     continue;
                 } else {
-                    result += get_dec_value_from_roman_number(&to_check).unwrap();
+                    to_return += get_dec_value_from_roman_number(&to_check).unwrap();
                 }
             } else {
-                result += get_dec_value_from_roman_number(&previous_roman_number).unwrap();
-                previous_roman_number = format!("{}", roman_number_symbol);
+                to_return += get_dec_value_from_roman_number(&previous_roman_number).unwrap();
+                previous_roman_number = current_roman_number_symbol.to_string();
             }
         }
 
-        return result;
+        return to_return;
 
         fn is_not_last_roman_number_symbol(roman_number_size: usize, idx: usize) -> bool {
             idx < roman_number_size - 1
@@ -55,11 +51,7 @@ fn get_dec_value_from_roman_number(roman_number: &str) -> Option<i32> {
     }
 
     match roman_number.chars().count() {
-        1 => Some(
-            *roman_number_value()
-                .get(&roman_number.chars().next().unwrap())
-                .unwrap(),
-        ),
+        1 => Some(try_get_dec_value_from_roman_nth(roman_number, 0)),
         2 => {
             let first = try_get_dec_value_from_roman_nth(roman_number, 0);
             let second = try_get_dec_value_from_roman_nth(roman_number, 1);
