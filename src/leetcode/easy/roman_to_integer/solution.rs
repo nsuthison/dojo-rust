@@ -3,15 +3,27 @@ use std::collections::HashMap;
 struct Solution;
 
 fn roman_number_value() -> HashMap<char, i32> {
-    HashMap::from([
-        ('I', 1),
-        ('V', 5),
-        ('X', 10),
-        ('L', 50),
-        ('C', 100),
-        ('D', 500),
-        ('M', 1000),
-    ])
+    let mut to_return = HashMap::new();
+    to_return.insert('I', 1);
+    to_return.insert('I', 1);
+    to_return.insert('V', 5);
+    to_return.insert('X', 10);
+    to_return.insert('L', 50);
+    to_return.insert('C', 100);
+    to_return.insert('D', 500);
+    to_return.insert('M', 1000);
+
+    to_return
+    // Leetcode compiler is outdated and is not support HashMap literal (Rust 1.56) yet.
+    // HashMap::from([
+    //     ('I', 1),
+    //     ('V', 5),
+    //     ('X', 10),
+    //     ('L', 50),
+    //     ('C', 100),
+    //     ('D', 500),
+    //     ('M', 1000),
+    // ])
 }
 
 /// Question: https://leetcode.com/problems/roman-to-integer/
@@ -33,7 +45,14 @@ impl Solution {
                 }
             } else {
                 to_return += get_dec_value_from_roman_number(&previous_roman_number).unwrap();
-                previous_roman_number = current_roman_number_symbol.to_string();
+
+                if is_not_last_roman_number_symbol(given_roman_number_size, idx) {
+                    previous_roman_number = current_roman_number_symbol.to_string();
+                } else {
+                    to_return +=
+                        get_dec_value_from_roman_number(&current_roman_number_symbol.to_string())
+                            .unwrap()
+                }
             }
         }
 
@@ -56,7 +75,11 @@ fn get_dec_value_from_roman_number(roman_number: &str) -> Option<i32> {
             let first = try_get_dec_value_from_roman_nth(roman_number, 0);
             let second = try_get_dec_value_from_roman_nth(roman_number, 1);
 
-            Some(second - first)
+            if first == second {
+                Some(first * 2)
+            } else {
+                Some(second - first)
+            }
         }
         3 => {
             let first = try_get_dec_value_from_roman_nth(roman_number, 0);
@@ -76,7 +99,7 @@ fn try_get_dec_value_from_roman_nth(roman_number: &str, nth: usize) -> i32 {
 fn is_legit_roman_number(roman_number: &str) -> bool {
     return match roman_number.chars().count() {
         1 => is_legit_single_roman_number_symbol(roman_number),
-        2 => is_first_roman_symbol_lower_than_the_second_one(roman_number),
+        2 => is_first_roman_symbol_lower_or_equal_to_the_second_one(roman_number),
         3 => are_all_three_roman_symbol_the_same(roman_number),
         _ => false,
     };
@@ -88,7 +111,7 @@ fn is_legit_single_roman_number_symbol(roman_number: &str) -> bool {
         .is_some()
 }
 
-fn is_first_roman_symbol_lower_than_the_second_one(roman_number: &str) -> bool {
+fn is_first_roman_symbol_lower_or_equal_to_the_second_one(roman_number: &str) -> bool {
     let first = try_get_dec_value_from_roman_nth(roman_number, 0);
     let second = try_get_dec_value_from_roman_nth(roman_number, 1);
 
@@ -157,10 +180,11 @@ pub mod solution_test {
 
     #[test]
     fn roman_to_int_should_return_decimal_value_when_given_legit_roman_number() {
-        // assert_eq!(1, Solution::roman_to_int("I".to_owned()));
-        // assert_eq!(4, Solution::roman_to_int("IV".to_owned()));
-        // assert_eq!(9, Solution::roman_to_int("IX".to_owned()));
+        assert_eq!(1, Solution::roman_to_int("I".to_owned()));
+        assert_eq!(4, Solution::roman_to_int("IV".to_owned()));
+        assert_eq!(9, Solution::roman_to_int("IX".to_owned()));
         assert_eq!(58, Solution::roman_to_int("LVIII".to_owned()));
         assert_eq!(1994, Solution::roman_to_int("MCMXCIV".to_owned()));
+        assert_eq!(621, Solution::roman_to_int("DCXXI".to_owned()));
     }
 }
